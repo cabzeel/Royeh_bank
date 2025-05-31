@@ -73,8 +73,6 @@ const AuthForm = ({ type }: { type: string }) => {
             password: data.password,
           })
 
-          console.log(response)
-
           if(response) router.push('/')
         }
       } catch (error) {
@@ -95,7 +93,7 @@ const AuthForm = ({ type }: { type: string }) => {
               height={34}
               alt="Horizon logo"
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Horizon</h1>
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">ROYEH</h1>
           </Link>
 
           <div className="flex flex-col gap-1 md:gap-3">
@@ -132,7 +130,7 @@ const AuthForm = ({ type }: { type: string }) => {
                   <CustomInput control={form.control} name='address1' label="Address" placeholder='Enter your specific address' />
                   <CustomInput control={form.control} name='city' label="City" placeholder='Enter your city' />
                   <div className="flex gap-4">
-                    <CustomInput control={form.control} name='state' label="State" placeholder='Example: NY' />
+                    <CustomInput control={form.control} name='state' label="Region" placeholder='Example: NY' />
                     <CustomInput control={form.control} name='postalCode' label="Postal Code" placeholder='Example: 11101' />
                   </div>
                   <div className="flex gap-4">

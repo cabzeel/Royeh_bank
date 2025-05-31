@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -21,12 +21,21 @@ export const BankDropdown = ({
 }: BankDropdownProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [selected, setSeclected] = useState(accounts[0]);
+  const [selected, setSelected] = useState<Account | null>(null);
+
+  // Set initial selected account
+  useEffect(() => {
+    if (accounts.length > 0) {
+      setSelected(accounts[0]);
+    }
+  }, [accounts]);
 
   const handleBankChange = (id: string) => {
-    const account = accounts.find((account) => account.appwriteItemId === id)!;
+    const account = accounts.find((acc) => acc.appwriteItemId === id);
+    if (!account) return;
 
-    setSeclected(account);
+    setSelected(account);
+
     const newUrl = formUrlQuery({
       params: searchParams.toString(),
       key: "id",
@@ -39,9 +48,12 @@ export const BankDropdown = ({
     }
   };
 
+  // If no accounts or selection yet, render nothing or fallback
+  if (!selected) return null;
+
   return (
     <Select
-      defaultValue={selected.id}
+      value={selected.appwriteItemId}
       onValueChange={(value) => handleBankChange(value)}
     >
       <SelectTrigger
@@ -55,6 +67,7 @@ export const BankDropdown = ({
         />
         <p className="line-clamp-1 w-full text-left">{selected.name}</p>
       </SelectTrigger>
+
       <SelectContent
         className={`w-full bg-white md:w-[300px] ${otherStyles}`}
         align="end"
@@ -69,7 +82,7 @@ export const BankDropdown = ({
               value={account.appwriteItemId}
               className="cursor-pointer border-t"
             >
-              <div className="flex flex-col ">
+              <div className="flex flex-col">
                 <p className="text-16 font-medium">{account.name}</p>
                 <p className="text-14 font-medium text-blue-600">
                   {formatAmount(account.currentBalance)}
